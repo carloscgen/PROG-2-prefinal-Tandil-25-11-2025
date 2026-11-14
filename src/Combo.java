@@ -68,29 +68,4 @@ public class Combo extends Elemento {
         return caracteristicasTotales;
     }
 
-    // public List<Elemento> copia(Estrategia est) {
-    // List<Elemento> copias = new ArrayList<>();
-
-    // Combo nuevoCombo = new Combo(getId(), getMarca());
-    // if (!est.aplica(this)) {
-
-    // for (Elemento el : elementos) {
-    // List<Elemento> elUnidad = el.copia(est);
-
-    // for (Elemento unidad : elUnidad) {
-
-    // nuevoCombo.add(unidad);
-    // }
-
-    // }
-    // if (nuevoCombo.size() > 0) {
-    // copias.add(nuevoCombo);
-    // }
-    // } else {
-    // copias.add(nuevoCombo);
-    // }
-
-    // return copias;
-    // }
-
 }
