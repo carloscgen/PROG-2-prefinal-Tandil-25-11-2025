@@ -11,6 +11,21 @@ public class ProductoSimple extends Elemento {
         this.caracteristicas = new ArrayList<>();
     }
 
+    protected ProductoSimple copiaInicial() {
+        return new ProductoSimple(getId(), getMarca(), precio);
+    }
+
+    public List<Elemento> getCopia(Estrategia est) {
+        List<Elemento> lista = new ArrayList<>();
+
+        if (est.cumpleCondicion(this)) {
+            ProductoSimple ps = copiaInicial();
+            ps.caracteristicas = new ArrayList<>(this.caracteristicas);
+            lista.add(ps);
+        }
+        return lista;
+    }
+
     public void setCaracteristicas(String ca) {
         this.caracteristicas.add(ca);
     }

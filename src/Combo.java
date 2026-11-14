@@ -9,6 +9,30 @@ public class Combo extends Elemento {
         this.elementos = new ArrayList<>();
     }
 
+    public List<Elemento> getCopia(Estrategia est) {
+        List<Elemento> lista = new ArrayList<>();
+        Combo co = new Combo(getId(), getMarca());
+
+        if (est.cumpleCondicion(this)) {
+            lista.add(co);
+            return lista;
+        }
+
+        for (Elemento elemento : elementos) {
+            List<Elemento> copiasHijo = elemento.getCopia(est);
+
+            for (Elemento copiaHijo : copiasHijo) {
+                co.addElementos(copiaHijo);
+            }
+        }
+
+        if (!co.getElementos().isEmpty()) {
+            lista.add(co);
+        }
+
+        return lista;
+    }
+
     public List<Elemento> getElementos() {
         return new ArrayList<>(this.elementos);
     }

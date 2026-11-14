@@ -6,6 +6,11 @@ public abstract class Elemento {
 
     public abstract double getPrecio();
     public abstract List<String> getCaracteristicas();
+    public abstract List<Elemento> getCopia(Estrategia e);
+
+    public boolean cumplePromocion(Estrategia e) {
+        return e.cumpleCondicion(this);
+    }
 
     public Elemento(int id, String marca) {
         this.id = id;

@@ -9,14 +9,14 @@ Enunciado: `Prefinal 2025 - Tandil.pdf` (una página). El usuario está implemen
 - `ProductoSimple` guarda el precio de lista y sus características. El constructor asigna el precio y `getCaracteristicas()` devuelve una lista nueva.
 - `Combo` guarda elementos de tipo `Elemento`. Al agregarlos compara la marca del elemento con la marca del propio combo. Calcula el precio sumando los precios de los elementos y las características como unión sin repetidos, también con combos anidados.
 - El enunciado no exige expresamente rechazar características repetidas al agregarlas a un producto simple. Sí exige que la unión devuelta por un combo no tenga repetidos.
-- Mejora de nombre pendiente: `Local.setProductos(Elemento)` agrega un producto; `agregarProducto` expresaría mejor su comportamiento.
+- `Local.agregarProductos(Elemento)` incorpora productos a la lista del local.
 
 ## Condiciones — revisadas
 
 - `Condicion` declara `cumple(Elemento)`, por lo que las condiciones pueden evaluar productos simples o combos mediante las operaciones comunes.
 - Están implementadas las condiciones de precio superior a un límite, marca, una característica y todas las características de una lista. La condición de varias características recorre las requeridas y comprueba que cada una esté en el producto; copia la lista recibida en el constructor.
 - `CondicionAND`, `CondicionOR` y `CondicionNOT` combinan condiciones. `NOT` recibe una sola condición.
-- En `CondicionCaracteristicas.cumple`, el control previo de lista vacía es redundante, pero el comportamiento es correcto.
+- `CondicionCaracteristicas.cumple` recorre las características requeridas; una lista vacía se cumple sin necesidad de un caso especial.
 
 ## Estrategias — revisadas
 
@@ -24,9 +24,17 @@ Enunciado: `Prefinal 2025 - Tandil.pdf` (una página). El usuario está implemen
 - `EstrategiaMonto` devuelve un monto fijo si cumple la condición; `EstrategiaPorcentaje` calcula un porcentaje del precio de lista; `EstrategiaMontoCaracteristica` multiplica un valor por la cantidad de características si cumple la condición. Si no cumplen, devuelven 0.
 - `EstrategiaCompuesta` suma los descuentos calculados por sus dos estrategias hijas cuando cumple su propia condición. Para el ejemplo de marca «Mike» y característica «Discontinuo», esa condición debe ser un OR: así se aplica si cumple cualquiera de las dos y puede acumular ambos descuentos.
 - `EstrategiaPorcentaje` y `EstrategiaMontoCaracteristica` heredan de la clase concreta `EstrategiaMonto` para reutilizar `valor`. Se discutió separar ese estado en una clase abstracta intermedia, pero no es una exigencia del enunciado ni impide resolver los ejemplos. El usuario decidió conservar la jerarquía actual.
-- Las fuentes compilaron. Falta comprobar resultados con casos concretos al revisar el ejercicio completo.
+- La condición propia de la estrategia compuesta debe ser coherente con las condiciones de sus estrategias hijas. En el ejemplo del PDF se usa `OR`.
 
-## Pendiente
+## Servicios, copias y tipos adicionales — revisados
 
-- Continuar con los servicios del local, copias filtradas y tipos adicionales cuando el usuario los presente.
-- Al finalizar, revisar comportamiento y casos límite contra todo el enunciado; compilar por sí solo no demuestra que la solución apruebe.
+- `Local.estaEnPromocion` exige que el producto cumpla la condición y pertenezca a la lista del local; `pertenece` recorre la lista completa por identificador.
+- `Local.precioProductoPromocion` resta el descuento al precio de lista y devuelve 0 si la resta es negativa.
+- `Local.copiaProductos` combina con `addAll` las listas devueltas por cada producto. `ProductoSimple.getCopia` copia precio, identificador, marca y características mediante `copiaInicial`; la subclase limitada sobrescribe esa fábrica para conservar tipo y límite.
+- `Combo.getCopia` devuelve una copia vacía del combo si el propio combo está alcanzado. En caso contrario, recorre recursivamente los hijos, agrega sus copias y devuelve el combo solo si alguno aportó elementos. La misma implementación de `Combo` cubre el comportamiento pedido para packs.
+- `ProductoCaracteristicasLimitadas` usa un límite de instancia inmutable; con 10 y 3 representa las dos variantes del enunciado y rechaza nuevos agregados al llegar al límite.
+
+## Evaluación actual
+
+- Todas las fuentes compilaron. Se comprobaron con ejecuciones concretas los descuentos porcentual y compuesto del ejemplo, el precio final, la pertenencia, el límite de características, la conservación del tipo y datos en copias, la independencia de las copias y los tres casos de copia de combos (alcanzado, no alcanzado con descendientes alcanzados, sin descendientes alcanzados).
+- La solución cubre los servicios y tipos pedidos y está en condiciones razonables para una evaluación. La unicidad de identificadores y la coherencia entre la condición de una estrategia compuesta y sus hijas quedan a cargo de quien construye los objetos; el enunciado no especifica cómo validar entradas inconsistentes.
