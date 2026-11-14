@@ -18,8 +18,15 @@ Enunciado: `Prefinal 2025 - Tandil.pdf` (una página). El usuario está implemen
 - `CondicionAND`, `CondicionOR` y `CondicionNOT` combinan condiciones. `NOT` recibe una sola condición.
 - En `CondicionCaracteristicas.cumple`, el control previo de lista vacía es redundante, pero el comportamiento es correcto.
 
+## Estrategias — revisadas
+
+- `Estrategia` mantiene una `Condicion` e implementa `cumpleCondicion(Elemento)` una sola vez; cada subtipo implementa su cálculo del descuento.
+- `EstrategiaMonto` devuelve un monto fijo si cumple la condición; `EstrategiaPorcentaje` calcula un porcentaje del precio de lista; `EstrategiaMontoCaracteristica` multiplica un valor por la cantidad de características si cumple la condición. Si no cumplen, devuelven 0.
+- `EstrategiaCompuesta` suma los descuentos calculados por sus dos estrategias hijas cuando cumple su propia condición. Para el ejemplo de marca «Mike» y característica «Discontinuo», esa condición debe ser un OR: así se aplica si cumple cualquiera de las dos y puede acumular ambos descuentos.
+- `EstrategiaPorcentaje` y `EstrategiaMontoCaracteristica` heredan de la clase concreta `EstrategiaMonto` para reutilizar `valor`. Se discutió separar ese estado en una clase abstracta intermedia, pero no es una exigencia del enunciado ni impide resolver los ejemplos. El usuario decidió conservar la jerarquía actual.
+- Las fuentes compilaron. Falta comprobar resultados con casos concretos al revisar el ejercicio completo.
+
 ## Pendiente
 
-- `Estrategia.java` es por ahora una clase abstracta vacía. El usuario indicó que todavía no implementó las estrategias; no revisarlas como si estuvieran terminadas.
-- Continuar con estrategias, servicios del local, copias filtradas y los tipos adicionales cuando el usuario los presente.
+- Continuar con los servicios del local, copias filtradas y tipos adicionales cuando el usuario los presente.
 - Al finalizar, revisar comportamiento y casos límite contra todo el enunciado; compilar por sí solo no demuestra que la solución apruebe.
